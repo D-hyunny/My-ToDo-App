@@ -1,0 +1,249 @@
+/* 색상 변수 */
+:root {
+    --primary: #667eea;
+    --primary-dark: #5568d3;
+    --secondary: #764ba2;
+    --text: #2d3748;
+    --text-muted: #a0aec0;
+    --text-summary: #718096;
+    --card-bg: #ffffff;
+    --item-bg: #f7fafc;
+    --border: #e2e8f0;
+    --danger: #e03131;
+    --danger-soft: #ffe3e3;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 카드를 화면 가로 중앙에 배치 */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 16px;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    color: var(--text);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+/* 할 일 카드 (최대 너비 500px) */
+.todo-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 32px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    margin-bottom: 24px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* 입력창 + 추가 버튼 */
+.todo-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.todo-input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.todo-input::placeholder {
+    color: var(--text-muted);
+}
+
+.todo-input:focus {
+    border-color: var(--primary);
+}
+
+.btn-add {
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-add:hover {
+    background: var(--primary-dark);
+}
+
+.btn-add:active {
+    transform: scale(0.96);
+}
+
+.btn-add:focus-visible,
+.btn-delete:focus-visible,
+.todo-check:focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 2px;
+}
+
+/* 할 일 개수 표시 */
+.todo-summary {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--text-summary);
+}
+
+.todo-summary strong {
+    color: var(--primary);
+}
+
+/* 필터 버튼 + 일괄 삭제 버튼 줄 */
+.todo-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filters {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-filter,
+.btn-clear {
+    padding: 7px 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-filter {
+    color: var(--text-summary);
+    background: var(--item-bg);
+    border: 1px solid var(--border);
+}
+
+.btn-filter:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* 현재 선택된 필터 강조 */
+.btn-filter.active {
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-clear {
+    color: var(--danger);
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.btn-clear:hover:not(:disabled) {
+    background: var(--danger-soft);
+}
+
+/* 완료된 항목이 없으면 비활성화 */
+.btn-clear:disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.btn-filter:focus-visible,
+.btn-clear:focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 2px;
+}
+
+/* 할 일 목록 영역 */
+.todo-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 목록이 비어 있을 때 안내 문구 (문구는 main.js가 data-empty에 넣는다) */
+.todo-list:empty::before {
+    content: attr(data-empty);
+    padding: 32px 0;
+    text-align: center;
+    color: var(--text-muted);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+}
+
+/* 할 일 항목 */
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--item-bg);
+    border-radius: 12px;
+}
+
+.todo-check {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.todo-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* 완료된 항목은 취소선 + 흐린 색 */
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.btn-delete {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-delete:hover {
+    color: var(--danger);
+    background: var(--border);
+}
